@@ -31,6 +31,14 @@ var library = {
 
 var printPlaylists = function () {
 
+  var playlists = library.playlists;
+
+  for (var specificPlaylist in playlists) {
+    if (playlists.hasOwnProperty(specificPlaylist)) {
+      console.log(playlists[specificPlaylist]["id"] + ": " + playlists[specificPlaylist]["name"] + " - " + playlists[specificPlaylist]["tracks"].length + " tracks");
+    }
+  }
+
 }
 
 
@@ -41,8 +49,15 @@ var printPlaylists = function () {
 
 var printTracks = function () {
 
-}
+  var tracks = library.tracks;
 
+  for (var specificTrack in tracks) {
+    if (tracks.hasOwnProperty(specificTrack)) {
+      console.log(tracks[specificTrack]["id"] + ": " + tracks[specificTrack]["name"] + " by " + tracks[specificTrack]["artist"] + " (" + tracks[specificTrack]["album"] + ")");
+    }
+  }
+
+}
 
 // prints a list of tracks for a given playlist, in the form:
 // p01: Coding Music - 2 tracks
@@ -51,15 +66,27 @@ var printTracks = function () {
 
 var printPlaylist = function (playlistId) {
 
-}
+  var playlist = library.playlists[playlistId];
 
+  console.log(playlist["id"] + ": " + playlist["name"] + " - " + playlist["tracks"].length + " tracks");
+
+  for (i = 0; i < playlist["tracks"].length; i++) {
+    var track = library.tracks[playlist["tracks"][i]];
+    console.log(track["id"] + ": " + track["name"] + " by " + track["artist"] + " (" + track["album"] + ")");
+  }
+
+}
 
 // adds an existing track to an existing playlist
 
 var addTrackToPlaylist = function (trackId, playlistId) {
 
-}
+  var playlist = library.playlists[playlistId];
+  var track = library.tracks[trackId];
 
+  playlist["tracks"].push(track["id"]);
+
+}
 
 // generates a unique id
 // (use this for addTrack and addPlaylist)
@@ -72,23 +99,51 @@ var uid = function() {
 // adds a track to the library
 
 var addTrack = function (name, artist, album) {
+  var trackID = uid();
+
+
+  library.tracks[trackID] = {};
+  library.tracks[trackID]["id"] = trackID;
+  library.tracks[trackID]["name"] = name;
+  library.tracks[trackID]["artist"] = artist;
+  library.tracks[trackID]["album"] = album;
 
 }
-
 
 // adds a playlist to the library
 
 var addPlaylist = function (name) {
 
-}
+  var playlistID = uid();
 
+  library.playlists[playlistID] = {};
+  library.playlists[playlistID]["id"] = playlistID;
+  library.playlists[playlistID]["name"] = name;
+
+}
 
 // STRETCH:
 // given a query string string, prints a list of tracks
 // where the name, artist or album contains the query string (case insensitive)
-// tip: use "string".search("tri") 
+// tip: use "string".search("tri")
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 
 var printSearchResults = function(query) {
+
+var tracks = library.tracks;
+
+  for (var specificTrack in tracks) {
+    if (tracks.hasOwnProperty(specificTrack)) {
+      if ((tracks[specificTrack]["name"].toUpperCase()).search((query.toUpperCase())) != -1) {
+        console.log(tracks[specificTrack]);
+      }
+      if ((tracks[specificTrack]["artist"].toUpperCase()).search((query.toUpperCase())) != -1) {
+        console.log(tracks[specificTrack]);
+      }
+      if ((tracks[specificTrack]["album"].toUpperCase()).search((query.toUpperCase())) != -1) {
+        console.log(tracks[specificTrack]);
+      }
+    }
+  }
 
 }
